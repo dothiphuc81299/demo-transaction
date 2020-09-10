@@ -15,7 +15,7 @@ import (
 func getTransactionDetailByUserID(userIDString string) (*transactionpb.GetTransactionDetailByUserIDResponse, error) {
 	var (
 		userID             = util.HelperParseStringToObjectID(userIDString)
-		filter             = bson.M{"_id": userID}
+		filter             = bson.M{"userID": userID}
 		transactionDetails = make([]*transactionpb.TransactionDetail, 0)
 		wg                 sync.WaitGroup
 	)
@@ -36,8 +36,7 @@ func getTransactionDetailByUserID(userIDString string) (*transactionpb.GetTransa
 			defer wg.Done()
 
 			// Convert to TransactionDetail
-			transaction := convertToTransactionDetail(transactions[index])
-
+			transaction := convertToTransactionDetailGRPC(transactions[index])
 			// Append
 			transactionDetails = append(transactionDetails, transaction)
 		}(index)
@@ -54,7 +53,7 @@ func getTransactionDetailByUserID(userIDString string) (*transactionpb.GetTransa
 	return result, nil
 }
 
-func convertToTransactionDetail(transaction models.TransactionBSON) *transactionpb.TransactionDetail {
+func convertToTransactionDetailGRPC(transaction models.TransactionBSON) *transactionpb.TransactionDetail {
 	var (
 		idString        = transaction.ID.Hex()
 		companyIDString = transaction.CompanyID.Hex()

@@ -2,7 +2,6 @@ package routes
 
 import (
 	"demo-transaction/models"
-	"log"
 
 	"github.com/labstack/echo/v4"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -50,7 +49,7 @@ import (
 func userCheckExistedByID(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		var (
-			body    = c.Get("body").(models.TransactionCreatePayload)
+			body   = c.Get("body").(models.TransactionCreatePayload)
 			userID = body.UserID
 		)
 
@@ -59,23 +58,22 @@ func userCheckExistedByID(next echo.HandlerFunc) echo.HandlerFunc {
 			return util.Response404(c, nil, "Not Found User by ID")
 		}
 
-		companyID     := c.Get("companyID").(primitive.ObjectID)
-		company:=models.CompanyBrief{
-			ID             :  companyID,
-			Name           : "hoang",
-			CashbackPercent  : 10,
-			TotalTransaction : 0,
-			TotalRevenue   :0,
+		companyID := c.Get("companyID").(primitive.ObjectID)
+		company := models.CompanyBrief{
+			ID:               companyID,
+			Name:             "hoang",
+			CashbackPercent:  10,
+			TotalTransaction: 0,
+			TotalRevenue:     0,
 		}
 
-		branchID     := c.Get("branchID").(primitive.ObjectID)
-		branch:=models.BranchBrief{
-			ID             :  branchID,
-			Name           : "hoang",
-			TotalTransaction  : 0,
-			TotalRevenue : 0,
+		branchID := c.Get("branchID").(primitive.ObjectID)
+		branch := models.BranchBrief{
+			ID:               branchID,
+			Name:             "hoang",
+			TotalTransaction: 0,
+			TotalRevenue:     0,
 		}
-
 
 		c.Set("company", company)
 		c.Set("branch", branch)

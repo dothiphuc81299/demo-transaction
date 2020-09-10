@@ -16,20 +16,24 @@ type Node struct{}
 
 // GetTransactionDetailByUserID ...
 func (s *Node) GetTransactionDetailByUserID(ctx context.Context, req *transactionpb.GetTransactionDetailByUserIDRequest) (*transactionpb.GetTransactionDetailByUserIDResponse, error) {
-	var(
+	var (
 		userID = req.GetUserID()
 	)
 
-	// Get user by id
+	// Get transaction by userID
 	result, err := getTransactionDetailByUserID(userID)
-
 	return result, err
+}
+
+// GetTransactionDetailByCompanyID ...
+func (s *Node) GetTransactionDetailByCompanyID(ctx context.Context, req *transactionpb.GetTransactionDetailByCompanyIDRequest) (*transactionpb.GetTransactionDetailByCompanyIDResponse, error) {
+	return nil, nil
 }
 
 // Start ...
 func Start() {
 	envVars := config.GetEnv()
-	transactionPort := config.GetEnv().GRPCPorts.Transaction
+	transactionPort := envVars.GRPCPorts.Transaction
 
 	// Create Listen
 	lis, err := net.Listen("tcp", transactionPort)

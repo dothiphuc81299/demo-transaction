@@ -11,7 +11,7 @@ import (
 	"demo-transaction/modules/redis"
 	"demo-transaction/modules/zookeeper"
 	"demo-transaction/routes"
-	//grpcnode "demo-transaction/grpc/node"
+	grpcnode "demo-transaction/grpc/node"
 )
 
 func init() {

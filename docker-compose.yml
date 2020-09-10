@@ -1,0 +1,32 @@
+version: '3'
+services:
+    web:
+        depends_on: 
+            - zookeeper
+            - redis
+        environment: 
+            - ZOOKEEPER_URI=zookeeper:2181
+        build: .
+        ports:
+            - "8080:8080"
+        networks: 
+            - web-transaction
+    zookeeper:
+        image: zookeeper
+        container_name: zookeeper
+        restart: always
+        hostname: zoo1
+        volumes:
+            - /home/hoang/zookeeper:/data
+        ports:
+            - 2181:2181
+        networks: 
+            - web-transaction   
+    redis:
+        image: redis:alpine
+        container_name: redis
+        ports: ["6379"]
+        networks:
+            - web-transaction
+networks: 
+    web-transaction:

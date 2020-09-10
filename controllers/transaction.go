@@ -13,9 +13,9 @@ import (
 func TransactionCreate(c echo.Context) error {
 	var (
 		body    = c.Get("body").(models.TransactionCreatePayload)
-		company = c.Get("company").(models.CompanyBrief)
-		branch  = c.Get("branch").(models.BranchBrief)
-		user    = c.Get("user").(models.UserBrief)
+		company = c.Get("companyBrief").(models.CompanyBrief)
+		branch  = c.Get("branchBrief").(models.BranchBrief)
+		user    = c.Get("userBrief").(models.UserBrief)
 	)
 
 	// Process data

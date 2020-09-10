@@ -4,47 +4,45 @@ import (
 	"demo-transaction/models"
 
 	"github.com/labstack/echo/v4"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 
+	grpccompany "demo-transaction/grpc/company"
 	grpcuser "demo-transaction/grpc/user"
-	//grpccompany "demo-transaction/grpc/company"
 	"demo-transaction/util"
 )
 
-// func companyCheckExistedByID(next echo.HandlerFunc) echo.HandlerFunc {
-// 	return func(c echo.Context) error {
-// 		var (
-// 			companyID     = c.Get("companyID").(primitive.ObjectID)
-// 			companyString = companyID.Hex()
-// 		)
+func companyCheckExistedByID(next echo.HandlerFunc) echo.HandlerFunc {
+	return func(c echo.Context) error {
+		var (
+			body      = c.Get("body").(models.TransactionCreatePayload)
+			companyID = body.CompanyID
+		)
 
-// 		user, err := grpcuser.GetCompanyBriefByID(companyString)
-// 		if err != nil {
-// 			return util.Response404(c, nil, "Khong tim thay user")
-// 		}
+		companyBrief, err := grpccompany.GetCompanyBriefByID(companyID)
+		if err != nil {
+			return util.Response404(c, nil, "Not found company by ID")
+		}
 
-// 		c.Set("company", user)
-// 		return next(c)
-// 	}
-// }
+		c.Set("companyBrief", companyBrief)
+		return next(c)
+	}
+}
 
-// func branchCheckExistedByID(next echo.HandlerFunc) echo.HandlerFunc {
-// 	return func(c echo.Context) error {
-// 		var (
-// 			userID     = c.Get("userID").(primitive.ObjectID)
-// 			userString = userID.Hex()
-// 		)
+func branchCheckExistedByID(next echo.HandlerFunc) echo.HandlerFunc {
+	return func(c echo.Context) error {
+		var (
+			body     = c.Get("body").(models.TransactionCreatePayload)
+			branchID = body.BranchID
+		)
 
-// 		user, err := grpcuser.GetUserBriefByID(userString)
-// 		if err != nil {
-// 			return util.Response404(c, nil, "Khong tim thay user")
-// 		}
+		branchBrief, err := grpccompany.GetBranchBriefByID(branchID)
+		if err != nil {
+			return util.Response404(c, nil, "Not found banch by ID")
+		}
 
-// 		c.Set("branch", user)
-// 		return next(c)
-// 	}
-// }
-// Validate company object id
+		c.Set("branchBrief", branchBrief)
+		return next(c)
+	}
+}
 
 func userCheckExistedByID(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
@@ -53,32 +51,12 @@ func userCheckExistedByID(next echo.HandlerFunc) echo.HandlerFunc {
 			userID = body.UserID
 		)
 
-		user, err := grpcuser.GetUserBriefByID(userID)
+		userBrief, err := grpcuser.GetUserBriefByID(userID)
 		if err != nil {
-			return util.Response404(c, nil, "Not Found User by ID")
+			return util.Response404(c, nil, "Not found user by ID")
 		}
 
-		companyID := c.Get("companyID").(primitive.ObjectID)
-		company := models.CompanyBrief{
-			ID:               companyID,
-			Name:             "hoang",
-			CashbackPercent:  10,
-			TotalTransaction: 0,
-			TotalRevenue:     0,
-		}
-
-		branchID := c.Get("branchID").(primitive.ObjectID)
-		branch := models.BranchBrief{
-			ID:               branchID,
-			Name:             "hoang",
-			TotalTransaction: 0,
-			TotalRevenue:     0,
-		}
-
-		c.Set("company", company)
-		c.Set("branch", branch)
-		c.Set("user", user)
+		c.Set("userBrief", userBrief)
 		return next(c)
 	}
-
 }

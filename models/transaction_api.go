@@ -22,7 +22,7 @@ func (payload TransactionCreatePayload) Validate() error {
 		"companyID": validation.Validate(payload.CompanyID, validation.Required, is.MongoID),
 		"branchID": validation.Validate(payload.BranchID, validation.Required, is.MongoID),
 		"userID": validation.Validate(payload.UserID, validation.Required, is.MongoID),
-		"amount": validation.Validate(payload.Amount, validation.Required,is.Digit),
+		"amount": validation.Validate(payload.Amount, validation.Required),
 	}.Filter()
 	return err
 }

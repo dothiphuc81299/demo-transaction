@@ -7,9 +7,10 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 
 	"demo-transaction/config"
+	grpccompany "demo-transaction/grpc/company"
+	grpcuser "demo-transaction/grpc/user"
 	"demo-transaction/models"
 	"demo-transaction/modules/redis"
-	grpcuser "demo-transaction/grpc/user"
 )
 
 func transactionCreatePayloadToBSON(body models.TransactionCreatePayload, companyID, branchID, userID primitive.ObjectID) models.TransactionBSON {
@@ -50,52 +51,50 @@ func transactionAddInformation(transaction models.TransactionBSON, commission, c
 	return transaction
 }
 
-// func companyAndBranchUpdateAfterCreateTransaction(transaction models.TransactionBSON) (err error) {
-// 	var (
-// 		companyID     = transaction.CompanyID
-// 		userID     = transaction.UserID
-// 	)
-// }
-
-func userUpdateAfterCreateTransaction(transaction models.TransactionBSON, userBrief models.UserBrief,commission float64) (err error) {
+func companyUpdateAfterCreateTransaction(companyBrief models.CompanyBrief, amount float64) (err error) {
 	var (
-		userID     = transaction.UserID
-		userIDString = userID.Hex()
+		companyID        = companyBrief.ID
+		companyIDString  = companyID.Hex()
+		totalTransaction = companyBrief.TotalTransaction
+		totalRevenue     = companyBrief.TotalRevenue
+	)
+
+	// Set userStats
+	totalTransaction++
+	totalRevenue += amount
+
+	err = grpccompany.UpdateCompanyStatsByID(companyIDString, totalTransaction, totalRevenue)
+	return
+}
+
+func branchUpdateAfterCreateTransaction(branchBrief models.BranchBrief, amount float64) (err error) {
+	var (
+		branchID         = branchBrief.ID
+		branchIDString   = branchID.Hex()
+		totalTransaction = branchBrief.TotalTransaction
+		totalRevenue     = branchBrief.TotalRevenue
+	)
+
+	// Set userStats
+	totalTransaction++
+	totalRevenue += amount
+
+	err = grpccompany.UpdateBranchStatsByID(branchIDString, totalTransaction, totalRevenue)
+	return
+}
+
+func userUpdateAfterCreateTransaction(userBrief models.UserBrief, commission float64) (err error) {
+	var (
+		userID           = userBrief.ID
+		userIDString     = userID.Hex()
 		totalTransaction = userBrief.TotalTransaction
-		totalCommission = userBrief.TotalCommission 
+		totalCommission  = userBrief.TotalCommission
 	)
 
 	// Set userStats
 	totalTransaction++
 	totalCommission += commission
 
-	err = grpcuser.UpdateUserStatsByID(userIDString,totalTransaction,totalCommission)
-	return 
+	err = grpcuser.UpdateUserStatsByID(userIDString, totalTransaction, totalCommission)
+	return
 }
-
-
-// func convertToTransactionDetail(transaction models.TransactionBSON, user models.UserBrief) models.TransactionDetail {
-// 	var (
-// 		company, _  = dao.CompanyFindByID(transaction.CompanyID)
-// 		branch, _   = dao.BranchFindByID(transaction.BranchID)
-// 		companyName = company.Name
-// 		branchName  = branch.Name
-// 		userName    = user.Name
-// 	)
-
-// 	// TransactionDetail
-// 	result := models.TransactionDetail{
-// 		ID:                       transaction.ID,
-// 		Company:                  companyName,
-// 		Branch:                   branchName,
-// 		User:                     userName,
-// 		Amount:                   transaction.Amount,
-// 		Commission:               transaction.Commission,
-// 		CompanyCashbackPercent:   transaction.CompanyCashbackPercent,
-// 		MilestoneCashbackPercent: transaction.MilestoneCashbackPercent,
-// 		PaidType:                 transaction.PaidType,
-// 		CreatedAt:                transaction.CreatedAt,
-// 	}
-
-// 	return result
-// }

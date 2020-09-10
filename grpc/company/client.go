@@ -1,25 +1,26 @@
 package grpccompany
 
-// import (
-// 	"log"
-// 	"google.golang.org/grpc"
+import (
+	"log"
 
-// 	"demo-transaction/config"
-// 	companypb "demo-transaction/proto/models/company"
-// )
+	"google.golang.org/grpc"
 
-// // CreateClient ...
-// func CreateClient() (*grpc.ClientConn, companypb.CompanyServiceClient) {
-// 	envVars := config.GetEnv()
-// 	address := envVars.GRPCAddresses.Company + envVars.GRPCPorts.Company
+	"demo-transaction/config"
+	companypb "demo-transaction/proto/models/company"
+)
 
-// 	clientConn, err := grpc.Dial(address, grpc.WithInsecure())
+// CreateClient ...
+func CreateClient() (*grpc.ClientConn, companypb.CompanyServiceClient) {
+	envVars := config.GetEnv()
+	address := envVars.GRPCAddresses.Company + envVars.GRPCPorts.Company
 
-// 	if err != nil {
-// 		log.Fatalf("err while dial %v", err)
-// 	}
+	clientConn, err := grpc.Dial(address, grpc.WithInsecure())
 
-// 	client := companypb.NewCompanyServiceClient(clientConn)
+	if err != nil {
+		log.Fatalf("err while dial %v", err)
+	}
 
-// 	return clientConn, client
-// }
+	client := companypb.NewCompanyServiceClient(clientConn)
+
+	return clientConn, client
+}

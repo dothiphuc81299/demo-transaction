@@ -16,18 +16,26 @@ type Node struct{}
 
 // GetTransactionDetailByUserID ...
 func (s *Node) GetTransactionDetailByUserID(ctx context.Context, req *transactionpb.GetTransactionDetailByUserIDRequest) (*transactionpb.GetTransactionDetailByUserIDResponse, error) {
-	var (
-		userID = req.GetUserID()
-	)
 
-	// Get transaction by userID
-	result, err := getTransactionDetailByUserID(userID)
+	// Get transactions by userID
+	data, err := getTransactionDetailByUserID(req.GetUserID())
+
+	result := &transactionpb.GetTransactionDetailByUserIDResponse{
+		TransactionDetail: data,
+	}
 	return result, err
 }
 
 // GetTransactionDetailByCompanyID ...
 func (s *Node) GetTransactionDetailByCompanyID(ctx context.Context, req *transactionpb.GetTransactionDetailByCompanyIDRequest) (*transactionpb.GetTransactionDetailByCompanyIDResponse, error) {
-	return nil, nil
+
+	// Get transaction by companyID
+	data, err := getTransactionDetailByCompanyID(req.GetCompanyID())
+
+	result := &transactionpb.GetTransactionDetailByCompanyIDResponse{
+		TransactionDetail: data,
+	}
+	return result, err
 }
 
 // Start ...

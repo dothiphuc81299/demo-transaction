@@ -1,23 +1,39 @@
 package grpccompany
 
+import (
+	"demo-transaction/util"
 
-// import (
-// 	"go.mongodb.org/mongo-driver/bson/primitive"
+	"demo-transaction/models"
+	companypb "demo-transaction/proto/models/company"
+)
 
-// 	"demo-transaction/models"
-// 	companypb "demo-transaction/proto/models/user"
-// )
+func convertToCompanyBrief(data *companypb.CompanyBrief) models.CompanyBrief {
+	var (
+		companyID = util.HelperParseStringToObjectID(data.Id)
+	)
 
-// func convertToCompanyBrief(data *companypb.CompanyBrief) models.CompanyBrief {
-// 	var (
-// 		companyID, _ = primitive.ObjectIDFromHex(data.Id)
-// 	)
+	companyBrief := models.CompanyBrief{
+		ID:               companyID,
+		Name:             data.Name,
+		CashbackPercent:  data.CashbackPercent,
+		TotalTransaction: data.TotalTransaction,
+		TotalRevenue:     data.TotalRevenue,
+	}
 
-// 	companyBrief := models.CompanyBrief{
-// 		ID:   userID,
-// 		Name: data.Name,
-// 		CashbackPercent:data.CashbackPercent,
-// 	}
-	
-// 	return companyBrief
-// }
+	return companyBrief
+}
+
+func convertToBranchBrief(data *companypb.BranchBrief) models.BranchBrief {
+	var (
+		branchID = util.HelperParseStringToObjectID(data.Id)
+	)
+
+	branchBrief := models.BranchBrief{
+		ID:               branchID,
+		Name:             data.Name,
+		TotalTransaction: data.TotalTransaction,
+		TotalRevenue:     data.TotalRevenue,
+	}
+
+	return branchBrief
+}

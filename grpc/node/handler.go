@@ -12,10 +12,30 @@ import (
 	"demo-transaction/util"
 )
 
-func getTransactionDetailByUserID(userIDString string) (*transactionpb.GetTransactionDetailByUserIDResponse, error) {
+func getTransactionDetailByUserID(userIDString string) ([]*transactionpb.TransactionDetail, error) {
 	var (
-		userID             = util.HelperParseStringToObjectID(userIDString)
-		filter             = bson.M{"userID": userID}
+		userID = util.HelperParseStringToObjectID(userIDString)
+		filter = bson.M{"userID": userID}
+	)
+
+	// Get Transactions
+	transactionDetails, err := getTransactionDetailByFilter(filter)
+	return transactionDetails, err
+}
+
+func getTransactionDetailByCompanyID(companyIDString string) ([]*transactionpb.TransactionDetail, error) {
+	var (
+		companyID = util.HelperParseStringToObjectID(companyIDString)
+		filter    = bson.M{"companyID": companyID}
+	)
+
+	// Get Transactions
+	transactionDetails, err := getTransactionDetailByFilter(filter)
+	return transactionDetails, err
+}
+
+func getTransactionDetailByFilter(filter bson.M) ([]*transactionpb.TransactionDetail, error) {
+	var (
 		transactionDetails = make([]*transactionpb.TransactionDetail, 0)
 		wg                 sync.WaitGroup
 	)
@@ -45,12 +65,7 @@ func getTransactionDetailByUserID(userIDString string) (*transactionpb.GetTransa
 	// Wait process
 	wg.Wait()
 
-	// Success
-	result := &transactionpb.GetTransactionDetailByUserIDResponse{
-		TransactionDetail: transactionDetails,
-	}
-
-	return result, nil
+	return transactionDetails, nil
 }
 
 func convertToTransactionDetailGRPC(transaction models.TransactionBSON) *transactionpb.TransactionDetail {

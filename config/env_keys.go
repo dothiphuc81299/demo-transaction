@@ -1,11 +1,10 @@
 package config
 
-//	"os"
-
 // ENV ...
 type ENV struct {
 	IsDev bool
 
+	// Zookeeper URI
 	ZookeeperURI string
 
 	// App port

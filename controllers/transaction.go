@@ -21,7 +21,7 @@ func TransactionCreate(c echo.Context) error {
 	// Process data
 	rawData, err := services.TransactionCreate(body, company, branch, user)
 
-	//if err
+	// If err
 	if err != nil {
 		return util.Response400(c, nil, err.Error())
 	}

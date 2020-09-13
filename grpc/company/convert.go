@@ -1,10 +1,9 @@
 package grpccompany
 
 import (
-	"demo-transaction/util"
-
 	"demo-transaction/models"
 	companypb "demo-transaction/proto/models/company"
+	"demo-transaction/util"
 )
 
 func convertToCompanyBrief(data *companypb.CompanyBrief) models.CompanyBrief {
@@ -19,7 +18,6 @@ func convertToCompanyBrief(data *companypb.CompanyBrief) models.CompanyBrief {
 		TotalTransaction: data.TotalTransaction,
 		TotalRevenue:     data.TotalRevenue,
 	}
-
 	return companyBrief
 }
 
@@ -34,6 +32,5 @@ func convertToBranchBrief(data *companypb.BranchBrief) models.BranchBrief {
 		TotalTransaction: data.TotalTransaction,
 		TotalRevenue:     data.TotalRevenue,
 	}
-
 	return branchBrief
 }

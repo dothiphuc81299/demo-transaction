@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"log"
-	"time"
 
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -21,23 +20,15 @@ var (
 func Connect() {
 	envVars := config.GetEnv()
 
-	// Set Client
-	client, err := mongo.NewClient(options.Client().ApplyURI(envVars.Database.URI))
+	// Connect Client
+	cl, err := mongo.Connect(context.Background(), options.Client().ApplyURI(envVars.Database.URI))
 	if err != nil {
-		log.Println(err)
-		log.Fatal("Cannot create client with uri:", envVars.Database.URI)
+		log.Println("err", err)
+		log.Fatal("Cannot connect to database ", envVars.Database.URI)
 	}
 
-	// Set deadline
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-	defer cancel()
-
-	// Connect
-	err = client.Connect(ctx)
-	if err != nil {
-		log.Println(err)
-		log.Fatal("Cannot connect to database:", envVars.Database.URI)
-	}
+	// Set client
+	client = cl
 
 	// Set database
 	db = client.Database(envVars.Database.Name)
@@ -52,9 +43,4 @@ func GetClient() *mongo.Client {
 // SetDB ...
 func SetDB(dbValue *mongo.Database) {
 	db = dbValue
-}
-
-// GetDB ...
-func GetDB() *mongo.Database {
-	return db
 }

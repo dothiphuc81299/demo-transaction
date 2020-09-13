@@ -18,7 +18,6 @@ func TransactionCreate(doc models.TransactionBSON) (models.TransactionBSON, erro
 
 	// Insert
 	_, err := collection.InsertOne(ctx, doc)
-
 	return doc, err
 }
 
@@ -38,6 +37,5 @@ func TransactionFindByFilter(filter bson.M) ([]models.TransactionBSON, error) {
 
 	// Set result
 	cursor.All(ctx, &result)
-
 	return result, err
 }

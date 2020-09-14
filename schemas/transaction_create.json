@@ -1,0 +1,27 @@
+{
+    "$id": "transaction_create.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "required": [
+        "data",
+        "message"
+    ],
+    "properties": {
+        "data": {
+            "type": "object",
+            "required": [
+                "_id",
+                "createdAt"
+            ],
+            "properties": {
+                "_id": {
+                    "type": "string"
+                },
+                "createdAt": {
+                    "type": "string",
+                    "format": "date-time"
+                }
+            }
+        }
+    }
+}

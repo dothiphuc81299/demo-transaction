@@ -20,7 +20,7 @@ func CreateClient() (*grpc.ClientConn, userpb.UserServiceClient) {
 		log.Fatalf("err while dial %v", err)
 	}
 
-	// Create company service 
+	// Create user service 
 	client := userpb.NewUserServiceClient(clientConn)
 	return clientConn, client
 }

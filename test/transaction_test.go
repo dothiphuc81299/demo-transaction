@@ -2,22 +2,20 @@ package test
 
 import (
 	"context"
-	"demo-transaction/apptest"
-	"demo-transaction/modules/database"
-	"log"
-
-	"go.mongodb.org/mongo-driver/bson"
-
-	"github.com/labstack/echo/v4"
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/suite"
-
 	"encoding/json"
+	"log"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 
+	"github.com/labstack/echo/v4"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/suite"
+	"go.mongodb.org/mongo-driver/bson"
+
+	"demo-transaction/apptest"
 	"demo-transaction/models"
+	"demo-transaction/modules/database"
 	"demo-transaction/util"
 )
 
@@ -57,10 +55,10 @@ func (suite *TransactionCreateTestSuite) TestTransactionCreateSuccess() {
 	// Run HTTP server
 	suite.e.ServeHTTP(rec, req)
 
-	//Parse
+	// Parse
 	json.Unmarshal([]byte(rec.Body.String()), &response)
 
-	//Test
+	// Test
 	assert.Equal(suite.T(), http.StatusOK, rec.Code)
 	assert.NotEqual(suite.T(), nil, response["data"])
 }
@@ -84,10 +82,10 @@ func (suite *TransactionCreateTestSuite) TestTransactionCreateFailureWithInvalid
 	// Run HTTP server
 	suite.e.ServeHTTP(rec, req)
 
-	//Parse
+	// Parse
 	json.Unmarshal([]byte(rec.Body.String()), &response)
 
-	//Test
+	// Test
 	log.Println("respone:", response)
 	assert.Equal(suite.T(), http.StatusBadRequest, rec.Code)
 	assert.Equal(suite.T(), nil, response["data"])
@@ -112,10 +110,10 @@ func (suite *TransactionCreateTestSuite) TestTransactionCreateFailureWithInvalid
 	// Run HTTP server
 	suite.e.ServeHTTP(rec, req)
 
-	//Parse
+	// Parse
 	json.Unmarshal([]byte(rec.Body.String()), &response)
 
-	//Test
+	// Test
 	assert.Equal(suite.T(), http.StatusBadRequest, rec.Code)
 	assert.Equal(suite.T(), nil, response["data"])
 }
@@ -139,10 +137,10 @@ func (suite *TransactionCreateTestSuite) TestTransactionCreateFailureWithInvalid
 	// Run HTTP server
 	suite.e.ServeHTTP(rec, req)
 
-	//Parse
+	// Parse
 	json.Unmarshal([]byte(rec.Body.String()), &response)
 
-	//Test
+	// Test
 	assert.Equal(suite.T(), http.StatusBadRequest, rec.Code)
 	assert.Equal(suite.T(), nil, response["data"])
 }
@@ -166,10 +164,10 @@ func (suite *TransactionCreateTestSuite) TestTransactionFindByUserIDFailureWithN
 	// Run HTTP server
 	suite.e.ServeHTTP(rec, req)
 
-	//Parse
+	// Parse
 	json.Unmarshal([]byte(rec.Body.String()), &response)
 
-	//Test
+	// Test
 	assert.Equal(suite.T(), http.StatusNotFound, rec.Code)
 	assert.Equal(suite.T(), nil, response["data"])
 }
@@ -193,10 +191,10 @@ func (suite *TransactionCreateTestSuite) TestTransactionFindByUserIDFailureWithN
 	// Run HTTP server
 	suite.e.ServeHTTP(rec, req)
 
-	//Parse
+	// Parse
 	json.Unmarshal([]byte(rec.Body.String()), &response)
 
-	//Test
+	// Test
 	assert.Equal(suite.T(), http.StatusNotFound, rec.Code)
 	assert.Equal(suite.T(), nil, response["data"])
 }
@@ -220,15 +218,15 @@ func (suite *TransactionCreateTestSuite) TestTransactionFindByUserIDFailureWithN
 	// Run HTTP server
 	suite.e.ServeHTTP(rec, req)
 
-	//Parse
+	// Parse
 	json.Unmarshal([]byte(rec.Body.String()), &response)
 
-	//Test
+	// Test
 	assert.Equal(suite.T(), http.StatusNotFound, rec.Code)
 	assert.Equal(suite.T(), nil, response["data"])
 }
 
-func TestTransactionSuite(t *testing.T) {
+func TestTransactionTestSuite(t *testing.T) {
 	suite.Run(t, new(TransactionCreateTestSuite))
 }
 

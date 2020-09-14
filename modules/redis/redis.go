@@ -1,10 +1,10 @@
 package redis
 
 import (
-	"github.com/go-redis/redis"
-
 	"fmt"
 	"log"
+
+	"github.com/go-redis/redis"
 
 	"demo-transaction/config"
 )
@@ -16,6 +16,8 @@ var (
 // Connect ...
 func Connect() {
 	envVars := config.GetEnv()
+
+	// Create client
 	client = redis.NewClient(&redis.Options{
 		Addr:     envVars.Redis.URI,  // use default Addr
 		Password: envVars.Redis.Pass, // no password set

@@ -10,19 +10,19 @@ import (
 // TransactionCreate ...
 func TransactionCreate(body models.TransactionCreatePayload, companyBrief models.CompanyBrief, branchBrief models.BranchBrief, userBrief models.UserBrief) (transaction models.TransactionBSON, err error) {
 	var (
-		userString = body.UserID
-		companyID  = companyBrief.ID
-		branchID   = branchBrief.ID
-		userID     = userBrief.ID
-		amount     = body.Amount
+		userIDString = body.UserID
+		companyID    = companyBrief.ID
+		branchID     = branchBrief.ID
+		userID       = userBrief.ID
+		amount       = body.Amount
 	)
 
 	// Check User Request
-	err = transactionCheckUserRequest(userString)
+	err = transactionCheckUserRequest(userIDString)
 	if err != nil {
 		return
 	}
-	redis.Set(config.RedisKeyUser, userString)
+	redis.Set(config.RedisKeyUser, userIDString)
 
 	// Calculate commission
 	commission := calculateTransactionCommison(companyBrief.CashbackPercent, amount)
@@ -56,5 +56,6 @@ func TransactionCreate(body models.TransactionCreatePayload, companyBrief models
 	if err != nil {
 		return
 	}
+
 	return
 }

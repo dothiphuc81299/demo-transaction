@@ -3,6 +3,7 @@ package test
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 	"net/http/httptest"
@@ -11,6 +12,7 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
+	"github.com/xeipuuv/gojsonschema"
 	"go.mongodb.org/mongo-driver/bson"
 
 	"demo-transaction/apptest"
@@ -43,8 +45,9 @@ func (suite *TransactionCreateTestSuite) TearDownSuite() {
 
 func (suite *TransactionCreateTestSuite) TestTransactionCreateSuccess() {
 	var (
-		payload  = suite.data
-		response util.Response
+		payload      = suite.data
+		response     util.Response
+		schemaLoader = gojsonschema.NewReferenceLoader("file:///home/hoang/Documents/Company/demo-transaction/schemas/transaction_create.json")
 	)
 
 	// Setup request
@@ -58,7 +61,25 @@ func (suite *TransactionCreateTestSuite) TestTransactionCreateSuccess() {
 	// Parse
 	json.Unmarshal([]byte(rec.Body.String()), &response)
 
+	// Create JSONLoader from go struct
+	documentLoader := gojsonschema.NewGoLoader(response)
+
+	// Validate json response
+	result, err := gojsonschema.Validate(schemaLoader, documentLoader)
+	if err != nil {
+		panic(err.Error())
+	}
+	if result.Valid() {
+		fmt.Printf("The document is valid\n")
+	} else {
+		fmt.Printf("The document is not valid. see errors :\n")
+		for _, desc := range result.Errors() {
+			fmt.Printf("- %s\n", desc)
+		}
+	}
+
 	// Test
+	assert.Equal(suite.T(), true, result.Valid())
 	assert.Equal(suite.T(), http.StatusOK, rec.Code)
 	assert.NotEqual(suite.T(), nil, response["data"])
 }

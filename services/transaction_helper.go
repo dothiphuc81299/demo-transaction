@@ -1,6 +1,7 @@
 package services
 
 import (
+	"demo-transaction/util"
 	"errors"
 	"time"
 
@@ -14,14 +15,12 @@ import (
 )
 
 func transactionCreatePayloadToBSON(body models.TransactionCreatePayload, companyID, branchID, userID primitive.ObjectID) models.TransactionBSON {
-
 	result := models.TransactionBSON{
 		CompanyID: companyID,
 		BranchID:  branchID,
 		UserID:    userID,
 		Amount:    body.Amount,
 	}
-
 	return result
 }
 
@@ -35,11 +34,7 @@ func transactionCheckUserRequest(userString string) (err error) {
 }
 
 func calculateTransactionCommison(CompanyCashbackPercent, amount float64) float64 {
-	var (
-		commission float64
-	)
-	commission = (CompanyCashbackPercent / 100) * amount
-
+	commission := (CompanyCashbackPercent / 100) * amount
 	return commission
 }
 
@@ -54,7 +49,7 @@ func transactionAddInformation(transaction models.TransactionBSON, commission, c
 func companyUpdateAfterCreateTransaction(companyBrief models.CompanyBrief, amount float64) (err error) {
 	var (
 		companyID        = companyBrief.ID
-		companyIDString  = companyID.Hex()
+		companyIDString  = util.HelperParseObjectIDToString(companyID)
 		totalTransaction = companyBrief.TotalTransaction
 		totalRevenue     = companyBrief.TotalRevenue
 	)
@@ -62,7 +57,6 @@ func companyUpdateAfterCreateTransaction(companyBrief models.CompanyBrief, amoun
 	// Set userStats
 	totalTransaction++
 	totalRevenue += amount
-
 	err = grpccompany.UpdateCompanyStatsByID(companyIDString, totalTransaction, totalRevenue)
 	return
 }
@@ -70,7 +64,7 @@ func companyUpdateAfterCreateTransaction(companyBrief models.CompanyBrief, amoun
 func branchUpdateAfterCreateTransaction(branchBrief models.BranchBrief, amount float64) (err error) {
 	var (
 		branchID         = branchBrief.ID
-		branchIDString   = branchID.Hex()
+		branchIDString   = util.HelperParseObjectIDToString(branchID)
 		totalTransaction = branchBrief.TotalTransaction
 		totalRevenue     = branchBrief.TotalRevenue
 	)
@@ -78,7 +72,6 @@ func branchUpdateAfterCreateTransaction(branchBrief models.BranchBrief, amount f
 	// Set userStats
 	totalTransaction++
 	totalRevenue += amount
-
 	err = grpccompany.UpdateBranchStatsByID(branchIDString, totalTransaction, totalRevenue)
 	return
 }
@@ -86,7 +79,7 @@ func branchUpdateAfterCreateTransaction(branchBrief models.BranchBrief, amount f
 func userUpdateAfterCreateTransaction(userBrief models.UserBrief, commission float64) (err error) {
 	var (
 		userID           = userBrief.ID
-		userIDString     = userID.Hex()
+		userIDString     = util.HelperParseObjectIDToString(userID)
 		totalTransaction = userBrief.TotalTransaction
 		totalCommission  = userBrief.TotalCommission
 	)
@@ -94,7 +87,6 @@ func userUpdateAfterCreateTransaction(userBrief models.UserBrief, commission flo
 	// Set userStats
 	totalTransaction++
 	totalCommission += commission
-
 	err = grpcuser.UpdateUserStatsByID(userIDString, totalTransaction, totalCommission)
 	return
 }

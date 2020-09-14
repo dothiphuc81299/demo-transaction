@@ -11,13 +11,13 @@ import (
 
 // GetUserBriefByID ...
 func GetUserBriefByID(userID string) (userBrief models.UserBrief, err error) {
+	// Setup client
 	clientConn, client := CreateClient()
 	defer clientConn.Close()
-
 	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
 	defer cancel()
 
-	// Call
+	// Call GetUserBriefByID
 	result, err := client.GetUserBriefByID(ctx, &userpb.GetUserBriefByIDRequest{UserID: userID})
 	if err != nil {
 		log.Printf("Call grpc get user by Id error %v\n", err)
@@ -31,13 +31,13 @@ func GetUserBriefByID(userID string) (userBrief models.UserBrief, err error) {
 
 // UpdateUserStatsByID ...
 func UpdateUserStatsByID(userID string, totalTransaction int64, totalCommission float64) (err error) {
+	// Setup client
 	clientConn, client := CreateClient()
 	defer clientConn.Close()
-
 	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
 	defer cancel()
 
-	// Call
+	// Call UpdateUserStatsByID
 	_, err = client.UpdateUserStatsByID(ctx, &userpb.UpdateUserStatsByIDRequest{
 		Id:               userID,
 		TotalTransaction: totalTransaction,

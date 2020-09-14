@@ -7,11 +7,11 @@ import (
 	"github.com/labstack/echo/v4/middleware"
 
 	"demo-transaction/config"
+	grpcnode "demo-transaction/grpc/node"
 	"demo-transaction/modules/database"
 	"demo-transaction/modules/redis"
 	"demo-transaction/modules/zookeeper"
 	"demo-transaction/routes"
-	grpcnode "demo-transaction/grpc/node"
 )
 
 func init() {

@@ -53,6 +53,7 @@ func Start() {
 	s := grpc.NewServer()
 	transactionpb.RegisterTransactionServiceServer(s, &Node{})
 
+	// Start Server
 	log.Println(" gRPC server started on port:" + transactionPort)
 	err = s.Serve(lis)
 	if err != nil {

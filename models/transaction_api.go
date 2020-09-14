@@ -1,7 +1,7 @@
 package models
 
-import(
-	"github.com/go-ozzo/ozzo-validation/v4"
+import (
+	validation "github.com/go-ozzo/ozzo-validation/v4"
 	"github.com/go-ozzo/ozzo-validation/v4/is"
 )
 
@@ -20,9 +20,9 @@ type (
 func (payload TransactionCreatePayload) Validate() error {
 	err := validation.Errors{
 		"companyID": validation.Validate(payload.CompanyID, validation.Required, is.MongoID),
-		"branchID": validation.Validate(payload.BranchID, validation.Required, is.MongoID),
-		"userID": validation.Validate(payload.UserID, validation.Required, is.MongoID),
-		"amount": validation.Validate(payload.Amount, validation.Required),
+		"branchID":  validation.Validate(payload.BranchID, validation.Required, is.MongoID),
+		"userID":    validation.Validate(payload.UserID, validation.Required, is.MongoID),
+		"amount":    validation.Validate(payload.Amount, validation.Required),
 	}.Filter()
 	return err
 }

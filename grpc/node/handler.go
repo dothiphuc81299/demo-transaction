@@ -1,13 +1,13 @@
 package grpcnode
 
 import (
-	"demo-transaction/models"
 	"errors"
 	"sync"
 
 	"go.mongodb.org/mongo-driver/bson"
 
 	"demo-transaction/dao"
+	"demo-transaction/models"
 	transactionpb "demo-transaction/proto/models/transaction"
 	"demo-transaction/util"
 )
@@ -64,7 +64,6 @@ func getTransactionDetailByFilter(filter bson.M) ([]*transactionpb.TransactionDe
 
 	// Wait process
 	wg.Wait()
-
 	return transactionDetails, nil
 }
 
@@ -76,6 +75,7 @@ func convertToTransactionDetailGRPC(transaction models.TransactionBSON) *transac
 		userIDString    = transaction.UserID.Hex()
 		createdAt       = util.HelperConvertTimeToTimestampProto(transaction.CreatedAt)
 	)
+
 	// TransactionDetail
 	result := &transactionpb.TransactionDetail{
 		Id:                     idString,
@@ -87,6 +87,5 @@ func convertToTransactionDetailGRPC(transaction models.TransactionBSON) *transac
 		CompanyCashbackPercent: transaction.CompanyCashbackPercent,
 		CreatedAt:              createdAt,
 	}
-
 	return result
 }

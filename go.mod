@@ -2,10 +2,7 @@ module demo-transaction
 
 go 1.14
 
-replace demo-transaction/proto v0.0.0 => ./proto
-
 require (
-	demo-transaction/proto v0.0.0
 	github.com/asaskevich/govalidator v0.0.0-20200907205600-7a23bdc65eef
 	github.com/go-ozzo/ozzo-validation/v4 v4.2.2
 	github.com/go-redis/redis v6.15.9+incompatible

@@ -30,5 +30,4 @@ func TransactionCreate(c echo.Context) error {
 		"_id":       rawData.ID,
 		"createdAt": rawData.CreatedAt,
 	}, "")
-
 }

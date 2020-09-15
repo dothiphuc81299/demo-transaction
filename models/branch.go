@@ -5,7 +5,6 @@ import (
 )
 
 type (
-
 	// BranchBrief ...
 	BranchBrief struct {
 		ID               primitive.ObjectID `json:"_id"`

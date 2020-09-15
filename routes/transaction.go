@@ -7,7 +7,7 @@ import (
 	"demo-transaction/validations"
 )
 
-//Transaction func ...
+// Transaction ...
 func Transaction(e *echo.Echo) {
 	routes := e.Group("/transactions")
 

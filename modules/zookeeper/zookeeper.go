@@ -40,7 +40,7 @@ func Connect() {
 	databaseTestName, _, _ := conn.Get("/database/test/transaction")
 	envVars.Database.TestName = string(databaseTestName)
 
-	// GRPCAddresses
+	// gRPCAddresses
 	grpcAddressUser, _, _ := conn.Get("/grpc/uri/user")
 	envVars.GRPCAddresses.User = string(grpcAddressUser)
 	grpcAddressCompany, _, _ := conn.Get("/grpc/uri/company")
@@ -48,7 +48,7 @@ func Connect() {
 	grpcAddressTransaction, _, _ := conn.Get("/grpc/uri/transaction")
 	envVars.GRPCAddresses.Transaction = string(grpcAddressTransaction)
 
-	// GRPCPorts
+	// gRPCPorts
 	grpcPortUser, _, _ := conn.Get("/grpc/port/user")
 	envVars.GRPCPorts.User = string(grpcPortUser)
 	grpcPortCompany, _, _ := conn.Get("/grpc/port/company")

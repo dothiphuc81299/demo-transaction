@@ -17,7 +17,7 @@ func TransactionCreate(body models.TransactionCreatePayload, companyBrief models
 		amount       = body.Amount
 	)
 
-	// Check User Request
+	// Check user request
 	err = transactionCheckUserRequest(userIDString)
 	if err != nil {
 		return
@@ -27,31 +27,31 @@ func TransactionCreate(body models.TransactionCreatePayload, companyBrief models
 	// Calculate commission
 	commission := calculateTransactionCommison(companyBrief.CashbackPercent, amount)
 
-	// Convert Transaction
+	// Convert to TransactionBSON
 	transaction = transactionCreatePayloadToBSON(body, companyID, branchID, userID)
 
 	// Add information for Transaction
 	transaction = transactionAddInformation(transaction, commission, companyBrief.CashbackPercent)
 
-	// Create Transaction
+	// Create transaction
 	_, err = dao.TransactionCreate(transaction)
 	if err != nil {
 		return
 	}
 
-	// Update Company
+	// Update company
 	err = companyUpdateAfterCreateTransaction(companyBrief, amount)
 	if err != nil {
 		return
 	}
 
-	// Update Branch
+	// Update branch
 	err = branchUpdateAfterCreateTransaction(branchBrief, amount)
 	if err != nil {
 		return
 	}
 
-	// Update User
+	// Update user
 	err = userUpdateAfterCreateTransaction(userBrief, commission)
 	if err != nil {
 		return

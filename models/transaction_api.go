@@ -6,7 +6,6 @@ import (
 )
 
 type (
-
 	// TransactionCreatePayload ...
 	TransactionCreatePayload struct {
 		CompanyID string  `json:"companyID"`

@@ -5,7 +5,6 @@ import (
 )
 
 type (
-
 	// UserBrief ...
 	UserBrief struct {
 		ID               primitive.ObjectID `json:"_id"`

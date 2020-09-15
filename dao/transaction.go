@@ -16,7 +16,7 @@ func TransactionCreate(doc models.TransactionBSON) (models.TransactionBSON, erro
 		ctx        = context.Background()
 	)
 
-	// Insert
+	// Insert transaction
 	_, err := collection.InsertOne(ctx, doc)
 	return doc, err
 }

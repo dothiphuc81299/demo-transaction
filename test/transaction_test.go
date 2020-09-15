@@ -36,7 +36,7 @@ func (suite *TransactionCreateTestSuite) SetupSuite() {
 	removeOldDataTransaction()
 
 	// Setup payload data
-	suite.data = setupData()
+	suite.data = setupDataTransaction()
 }
 
 func (suite *TransactionCreateTestSuite) TearDownSuite() {
@@ -251,7 +251,7 @@ func TestTransactionTestSuite(t *testing.T) {
 	suite.Run(t, new(TransactionCreateTestSuite))
 }
 
-func setupData() models.TransactionCreatePayload {
+func setupDataTransaction() models.TransactionCreatePayload {
 	payload := models.TransactionCreatePayload{
 		CompanyID: "5f58f899b3d106cbfcecd111",
 		BranchID:  "5f58f899b3d106cbfcecd112",

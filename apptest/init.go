@@ -29,6 +29,5 @@ func InitServer() *echo.Echo {
 
 	// Route
 	routes.Boostrap(e)
-
 	return e
 }

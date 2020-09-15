@@ -18,7 +18,7 @@ func getTransactionDetailByUserID(userIDString string) ([]*transactionpb.Transac
 		filter = bson.M{"userID": userID}
 	)
 
-	// Get Transactions
+	// Get transactions
 	transactionDetails, err := getTransactionDetailByFilter(filter)
 	return transactionDetails, err
 }
@@ -29,7 +29,7 @@ func getTransactionDetailByCompanyID(companyIDString string) ([]*transactionpb.T
 		filter    = bson.M{"companyID": companyID}
 	)
 
-	// Get Transactions
+	// Get transactions
 	transactionDetails, err := getTransactionDetailByFilter(filter)
 	return transactionDetails, err
 }
@@ -40,7 +40,7 @@ func getTransactionDetailByFilter(filter bson.M) ([]*transactionpb.TransactionDe
 		wg                 sync.WaitGroup
 	)
 
-	// Find Transactions
+	// Find transactions
 	transactions, err := dao.TransactionFindByFilter(filter)
 	if err != nil {
 		err = errors.New("Not Found Transaction by UserID")

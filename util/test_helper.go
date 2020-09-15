@@ -23,7 +23,7 @@ func HelperConnect() {
 		client  = database.GetClient()
 	)
 
-	// Set Database for test ...
+	// Set database for test ...
 	db := client.Database(envVars.Database.TestName)
 	fmt.Println("Database Connected to", envVars.Database.TestName)
 	database.SetDB(db)

@@ -11,7 +11,7 @@ func convertToUserBrief(data *userpb.UserBrief) models.UserBrief {
 		userID = util.HelperParseStringToObjectID(data.Id)
 	)
 
-	// userBrief struct
+	// UserBrief struct
 	userBrief := models.UserBrief{
 		ID:               userID,
 		Name:             data.Name,

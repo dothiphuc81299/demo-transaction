@@ -16,7 +16,7 @@ func companyCheckExistedByID(next echo.HandlerFunc) echo.HandlerFunc {
 			companyID = body.CompanyID
 		)
 
-		// Call grpc api
+		// Call gRPC api
 		companyBrief, err := grpccompany.GetCompanyBriefByID(companyID)
 		if err != nil {
 			return util.Response404(c, nil, "Not found company by ID")
@@ -35,7 +35,7 @@ func branchCheckExistedByID(next echo.HandlerFunc) echo.HandlerFunc {
 			branchID = body.BranchID
 		)
 
-		// Call grpc api
+		// Call gRPC api
 		branchBrief, err := grpccompany.GetBranchBriefByID(branchID)
 		if err != nil {
 			return util.Response404(c, nil, "Not found banch by ID")

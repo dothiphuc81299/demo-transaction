@@ -5,7 +5,6 @@ import (
 )
 
 type (
-
 	// CompanyBrief ...
 	CompanyBrief struct {
 		ID               primitive.ObjectID `json:"_id"`

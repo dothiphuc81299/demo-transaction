@@ -43,17 +43,17 @@ func Start() {
 	envVars := config.GetEnv()
 	transactionPort := envVars.GRPCPorts.Transaction
 
-	// Create Listen
+	// Create listen
 	lis, err := net.Listen("tcp", transactionPort)
 	if err != nil {
 		log.Fatalf("err while create listen %v", err)
 	}
 
-	// Create Service Server
+	// Create service server
 	s := grpc.NewServer()
 	transactionpb.RegisterTransactionServiceServer(s, &Node{})
 
-	// Start Server
+	// Start server
 	log.Println(" gRPC server started on port:" + transactionPort)
 	err = s.Serve(lis)
 	if err != nil {

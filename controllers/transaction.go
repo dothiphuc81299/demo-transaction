@@ -6,27 +6,24 @@ import (
 
 	"demo-transaction/models"
 	"demo-transaction/services"
-	"demo-transaction/util"
+	"demo-transaction/utils"
 )
 
 // TransactionCreate ...
 func TransactionCreate(c echo.Context) error {
 	var (
-		body    = c.Get("body").(models.TransactionCreatePayload)
-		company = c.Get("companyBrief").(models.CompanyBrief)
-		branch  = c.Get("branchBrief").(models.BranchBrief)
-		user    = c.Get("userBrief").(models.UserBrief)
+		payload = c.Get("payload").(models.TransactionCreatePayload)
 	)
 
 	// Process data
-	rawData, err := services.TransactionCreate(body, company, branch, user)
+	rawData, err := services.TransactionCreate(payload)
 
 	// If err
 	if err != nil {
-		return util.Response400(c, nil, err.Error())
+		return utils.Response400(c, nil, err.Error())
 	}
 
-	return util.Response200(c, bson.M{
+	return utils.Response200(c, bson.M{
 		"_id":       rawData.ID,
 		"createdAt": rawData.CreatedAt,
 	}, "")

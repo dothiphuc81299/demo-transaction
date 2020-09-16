@@ -8,8 +8,8 @@ import (
 )
 
 // Transaction ...
-func Transaction(e *echo.Echo) {
+func transaction(e *echo.Echo) {
 	routes := e.Group("/transactions")
 
-	routes.POST("", controllers.TransactionCreate, validations.TransactionCreate, companyCheckExistedByID, branchCheckExistedByID, userCheckExistedByID)
+	routes.POST("", controllers.TransactionCreate, validations.TransactionCreate)
 }

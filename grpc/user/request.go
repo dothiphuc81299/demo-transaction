@@ -20,7 +20,7 @@ func GetUserBriefByID(userID string) (userBrief models.UserBrief, err error) {
 	// Call GetUserBriefByID
 	result, err := client.GetUserBriefByID(ctx, &userpb.GetUserBriefByIDRequest{UserID: userID})
 	if err != nil {
-		log.Printf("Call grpc get user by Id error %v\n", err)
+		log.Printf("call grpc get user by Id error %v\n", err)
 		return 
 	}
 
@@ -44,7 +44,7 @@ func UpdateUserStatsByID(userID string, totalTransaction int64, totalCommission 
 		TotalCommission:  totalCommission,
 	})
 	if err != nil {
-		log.Printf("Call grpc update userStats error %v\n", err)
+		log.Printf("call grpc update userStats error %v\n", err)
 		return
 	}
 	return

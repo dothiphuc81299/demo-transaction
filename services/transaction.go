@@ -8,13 +8,13 @@ import (
 )
 
 // TransactionCreate ...
-func TransactionCreate(body models.TransactionCreatePayload, companyBrief models.CompanyBrief, branchBrief models.BranchBrief, userBrief models.UserBrief) (transaction models.TransactionBSON, err error) {
+func TransactionCreate(payload models.TransactionCreatePayload) (transaction models.TransactionBSON, err error) {
 	var (
-		userIDString = body.UserID
-		companyID    = companyBrief.ID
-		branchID     = branchBrief.ID
-		userID       = userBrief.ID
-		amount       = body.Amount
+		userIDString = payload.User
+		companyBrief = payload.CompanyBrief
+		branchBrief  = payload.BranchBrief
+		userBrief    = payload.UserBrief
+		amount       = payload.Amount
 	)
 
 	// Check user request
@@ -28,7 +28,7 @@ func TransactionCreate(body models.TransactionCreatePayload, companyBrief models
 	commission := calculateTransactionCommison(companyBrief.CashbackPercent, amount)
 
 	// Convert to TransactionBSON
-	transaction = transactionCreatePayloadToBSON(body, companyID, branchID, userID)
+	transaction = payload.ConvertToBson()
 
 	// Add information for Transaction
 	transaction = transactionAddInformation(transaction, commission, companyBrief.CashbackPercent)

@@ -3,12 +3,12 @@ package grpcuser
 import (
 	"demo-transaction/models"
 	userpb "demo-transaction/proto/models/user"
-	"demo-transaction/util"
+	"demo-transaction/utils"
 )
 
 func convertToUserBrief(data *userpb.UserBrief) models.UserBrief {
 	var (
-		userID = util.HelperParseStringToObjectID(data.Id)
+		userID = utils.HelperParseStringToObjectID(data.Id)
 	)
 
 	// UserBrief struct

@@ -1,4 +1,4 @@
-package util
+package utils
 
 import (
 	"github.com/labstack/echo/v4"
@@ -40,4 +40,4 @@ func Response404(c echo.Context, data interface{}, message string) error {
 	return c.JSON(http.StatusNotFound, generateResponse(data, message))
 }
 
-// Response 
+// Response

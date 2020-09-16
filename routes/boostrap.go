@@ -6,5 +6,5 @@ import (
 
 // Boostrap ...
 func Boostrap(e *echo.Echo) {
-	Transaction(e)
+	transaction(e)
 }

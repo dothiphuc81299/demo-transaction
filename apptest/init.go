@@ -9,14 +9,14 @@ import (
 	"demo-transaction/modules/redis"
 	"demo-transaction/modules/zookeeper"
 	"demo-transaction/routes"
-	"demo-transaction/util"
+	"demo-transaction/utils"
 )
 
 func InitServer() *echo.Echo {
 	config.InitENV()
 	zookeeper.Connect()
 	database.Connect()
-	util.HelperConnect()
+	utils.HelperConnect()
 	redis.Connect()
 
 	// New echo

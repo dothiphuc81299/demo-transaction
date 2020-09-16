@@ -3,12 +3,12 @@ package grpccompany
 import (
 	"demo-transaction/models"
 	companypb "demo-transaction/proto/models/company"
-	"demo-transaction/util"
+	"demo-transaction/utils"
 )
 
 func convertToCompanyBrief(data *companypb.CompanyBrief) models.CompanyBrief {
 	var (
-		companyID = util.HelperParseStringToObjectID(data.Id)
+		companyID = utils.HelperParseStringToObjectID(data.Id)
 	)
 
 	companyBrief := models.CompanyBrief{
@@ -23,7 +23,7 @@ func convertToCompanyBrief(data *companypb.CompanyBrief) models.CompanyBrief {
 
 func convertToBranchBrief(data *companypb.BranchBrief) models.BranchBrief {
 	var (
-		branchID = util.HelperParseStringToObjectID(data.Id)
+		branchID = utils.HelperParseStringToObjectID(data.Id)
 	)
 
 	branchBrief := models.BranchBrief{

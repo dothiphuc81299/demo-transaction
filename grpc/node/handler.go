@@ -9,12 +9,12 @@ import (
 	"demo-transaction/dao"
 	"demo-transaction/models"
 	transactionpb "demo-transaction/proto/models/transaction"
-	"demo-transaction/util"
+	"demo-transaction/utils"
 )
 
 func getTransactionDetailByUserID(userIDString string) ([]*transactionpb.TransactionDetail, error) {
 	var (
-		userID = util.HelperParseStringToObjectID(userIDString)
+		userID = utils.HelperParseStringToObjectID(userIDString)
 		filter = bson.M{"userID": userID}
 	)
 
@@ -25,7 +25,7 @@ func getTransactionDetailByUserID(userIDString string) ([]*transactionpb.Transac
 
 func getTransactionDetailByCompanyID(companyIDString string) ([]*transactionpb.TransactionDetail, error) {
 	var (
-		companyID = util.HelperParseStringToObjectID(companyIDString)
+		companyID = utils.HelperParseStringToObjectID(companyIDString)
 		filter    = bson.M{"companyID": companyID}
 	)
 
@@ -43,7 +43,7 @@ func getTransactionDetailByFilter(filter bson.M) ([]*transactionpb.TransactionDe
 	// Find transactions
 	transactions, err := dao.TransactionFindByFilter(filter)
 	if err != nil {
-		err = errors.New("Not Found Transaction by UserID")
+		err = errors.New("not found Transaction by UserID")
 		return nil, err
 	}
 
@@ -73,7 +73,7 @@ func convertToTransactionDetailGRPC(transaction models.TransactionBSON) *transac
 		companyIDString = transaction.CompanyID.Hex()
 		branchIDString  = transaction.BranchID.Hex()
 		userIDString    = transaction.UserID.Hex()
-		createdAt       = util.HelperConvertTimeToTimestampProto(transaction.CreatedAt)
+		createdAt       = utils.HelperConvertTimeToTimestampProto(transaction.CreatedAt)
 	)
 
 	// TransactionDetail

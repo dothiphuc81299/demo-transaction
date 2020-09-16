@@ -20,7 +20,7 @@ func GetCompanyBriefByID(companyID string) (companyBrief models.CompanyBrief, er
 	// Call GetCompanyBriefByID
 	result, err := client.GetCompanyBriefByID(ctx, &companypb.GetCompanyBriefByIDRequest{CompanyID: companyID})
 	if err != nil {
-		log.Printf("Call grpc get Company by Id error %v\n", err)
+		log.Printf("call grpc get Company by Id error %v\n", err)
 		return
 	}
 
@@ -40,7 +40,7 @@ func GetBranchBriefByID(branchID string) (branchBrief models.BranchBrief, err er
 	// Call GetBranchBriefByID
 	result, err := client.GetBranchBriefByID(ctx, &companypb.GetBranchBriefByIDRequest{BranchID: branchID})
 	if err != nil {
-		log.Printf("Call grpc get Branch by Id error %v\n", err)
+		log.Printf("call grpc get Branch by Id error %v\n", err)
 		return
 	}
 
@@ -64,7 +64,7 @@ func UpdateCompanyStatsByID(companyID string, totalTransaction int64, totalReven
 		TotalRevenue:     totalRevenue,
 	})
 	if err != nil {
-		log.Printf("Call grpc update CompanyStats error %v\n", err)
+		log.Printf("call grpc update CompanyStats error %v\n", err)
 		return
 	}
 	return
@@ -85,7 +85,7 @@ func UpdateBranchStatsByID(branchID string, totalTransaction int64, totalRevenue
 		TotalRevenue:     totalRevenue,
 	})
 	if err != nil {
-		log.Printf("Call grpc update BranchStats error %v\n", err)
+		log.Printf("call grpc update BranchStats error %v\n", err)
 		return
 	}
 	return

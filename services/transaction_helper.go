@@ -1,9 +1,7 @@
 package services
 
 import (
-	"demo-transaction/util"
 	"errors"
-	"time"
 
 	"go.mongodb.org/mongo-driver/bson/primitive"
 
@@ -12,6 +10,7 @@ import (
 	grpcuser "demo-transaction/grpc/user"
 	"demo-transaction/models"
 	"demo-transaction/modules/redis"
+	"demo-transaction/utils"
 )
 
 func transactionCreatePayloadToBSON(body models.TransactionCreatePayload, companyID, branchID, userID primitive.ObjectID) models.TransactionBSON {
@@ -41,15 +40,13 @@ func calculateTransactionCommison(CompanyCashbackPercent, amount float64) float6
 func transactionAddInformation(transaction models.TransactionBSON, commission, companyCashbackPercent float64) models.TransactionBSON {
 	transaction.Commission = commission
 	transaction.CompanyCashbackPercent = companyCashbackPercent
-	transaction.ID = primitive.NewObjectID()
-	transaction.CreatedAt = time.Now()
 	return transaction
 }
 
 func companyUpdateAfterCreateTransaction(companyBrief models.CompanyBrief, amount float64) (err error) {
 	var (
 		companyID        = companyBrief.ID
-		companyIDString  = util.HelperParseObjectIDToString(companyID)
+		companyIDString  = utils.HelperParseObjectIDToString(companyID)
 		totalTransaction = companyBrief.TotalTransaction
 		totalRevenue     = companyBrief.TotalRevenue
 	)
@@ -64,7 +61,7 @@ func companyUpdateAfterCreateTransaction(companyBrief models.CompanyBrief, amoun
 func branchUpdateAfterCreateTransaction(branchBrief models.BranchBrief, amount float64) (err error) {
 	var (
 		branchID         = branchBrief.ID
-		branchIDString   = util.HelperParseObjectIDToString(branchID)
+		branchIDString   = utils.HelperParseObjectIDToString(branchID)
 		totalTransaction = branchBrief.TotalTransaction
 		totalRevenue     = branchBrief.TotalRevenue
 	)
@@ -79,7 +76,7 @@ func branchUpdateAfterCreateTransaction(branchBrief models.BranchBrief, amount f
 func userUpdateAfterCreateTransaction(userBrief models.UserBrief, commission float64) (err error) {
 	var (
 		userID           = userBrief.ID
-		userIDString     = util.HelperParseObjectIDToString(userID)
+		userIDString     = utils.HelperParseObjectIDToString(userID)
 		totalTransaction = userBrief.TotalTransaction
 		totalCommission  = userBrief.TotalCommission
 	)

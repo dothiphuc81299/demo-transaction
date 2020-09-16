@@ -1,4 +1,4 @@
-package test
+package controllers_test
 
 import (
 	"context"
@@ -18,7 +18,7 @@ import (
 	"demo-transaction/apptest"
 	"demo-transaction/models"
 	"demo-transaction/modules/database"
-	"demo-transaction/util"
+	"demo-transaction/utils"
 )
 
 // Test Create Transaction
@@ -46,12 +46,12 @@ func (suite *TransactionCreateTestSuite) TearDownSuite() {
 func (suite *TransactionCreateTestSuite) TestTransactionCreateSuccess() {
 	var (
 		payload      = suite.data
-		response     util.Response
+		response     utils.Response
 		schemaLoader = gojsonschema.NewReferenceLoader("file:///home/hoang/Documents/Company/demo-transaction/schemas/transaction_create.json")
 	)
 
 	// Setup request
-	req, _ := http.NewRequest(http.MethodPost, "/transactions", util.HelperToIOReader(payload))
+	req, _ := http.NewRequest(http.MethodPost, "/transactions", utils.HelperToIOReader(payload))
 	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 	rec := httptest.NewRecorder()
 
@@ -87,16 +87,16 @@ func (suite *TransactionCreateTestSuite) TestTransactionCreateSuccess() {
 func (suite *TransactionCreateTestSuite) TestTransactionCreateFailureWithInvalidCompanyID() {
 	var (
 		payload = models.TransactionCreatePayload{
-			CompanyID: "1",
-			BranchID:  suite.data.BranchID,
-			UserID:    suite.data.UserID,
-			Amount:    suite.data.Amount,
+			Company: "1",
+			Branch:  suite.data.Branch,
+			User:    suite.data.User,
+			Amount:  suite.data.Amount,
 		}
-		response util.Response
+		response utils.Response
 	)
 
 	// Setup request
-	req, _ := http.NewRequest(http.MethodPost, "/transactions", util.HelperToIOReader(payload))
+	req, _ := http.NewRequest(http.MethodPost, "/transactions", utils.HelperToIOReader(payload))
 	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 	rec := httptest.NewRecorder()
 
@@ -115,16 +115,16 @@ func (suite *TransactionCreateTestSuite) TestTransactionCreateFailureWithInvalid
 func (suite *TransactionCreateTestSuite) TestTransactionCreateFailureWithInvalidBranchID() {
 	var (
 		payload = models.TransactionCreatePayload{
-			CompanyID: suite.data.CompanyID,
-			BranchID:  "1",
-			UserID:    suite.data.UserID,
-			Amount:    suite.data.Amount,
+			Company: suite.data.Company,
+			Branch:  "1",
+			User:    suite.data.User,
+			Amount:  suite.data.Amount,
 		}
-		response util.Response
+		response utils.Response
 	)
 
 	// Setup request
-	req, _ := http.NewRequest(http.MethodPost, "/transactions", util.HelperToIOReader(payload))
+	req, _ := http.NewRequest(http.MethodPost, "/transactions", utils.HelperToIOReader(payload))
 	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 	rec := httptest.NewRecorder()
 
@@ -142,16 +142,16 @@ func (suite *TransactionCreateTestSuite) TestTransactionCreateFailureWithInvalid
 func (suite *TransactionCreateTestSuite) TestTransactionCreateFailureWithInvalidUserID() {
 	var (
 		payload = models.TransactionCreatePayload{
-			CompanyID: suite.data.CompanyID,
-			BranchID:  suite.data.BranchID,
-			UserID:    "1",
-			Amount:    suite.data.Amount,
+			Company: suite.data.Company,
+			Branch:  suite.data.Branch,
+			User:    "1",
+			Amount:  suite.data.Amount,
 		}
-		response util.Response
+		response utils.Response
 	)
 
 	// Setup request
-	req, _ := http.NewRequest(http.MethodPost, "/transactions", util.HelperToIOReader(payload))
+	req, _ := http.NewRequest(http.MethodPost, "/transactions", utils.HelperToIOReader(payload))
 	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 	rec := httptest.NewRecorder()
 
@@ -169,16 +169,16 @@ func (suite *TransactionCreateTestSuite) TestTransactionCreateFailureWithInvalid
 func (suite *TransactionCreateTestSuite) TestTransactionFindByUserIDFailureWithNotFoundCompany() {
 	var (
 		payload = models.TransactionCreatePayload{
-			CompanyID: "5f58f899b3d106cbfcecd333",
-			BranchID:  suite.data.BranchID,
-			UserID:    suite.data.UserID,
-			Amount:    suite.data.Amount,
+			Company: "5f58f899b3d106cbfcecd333",
+			Branch:  suite.data.Branch,
+			User:    suite.data.User,
+			Amount:  suite.data.Amount,
 		}
-		response util.Response
+		response utils.Response
 	)
 
 	// Setup request
-	req, _ := http.NewRequest(http.MethodPost, "/transactions", util.HelperToIOReader(payload))
+	req, _ := http.NewRequest(http.MethodPost, "/transactions", utils.HelperToIOReader(payload))
 	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 	rec := httptest.NewRecorder()
 
@@ -196,16 +196,16 @@ func (suite *TransactionCreateTestSuite) TestTransactionFindByUserIDFailureWithN
 func (suite *TransactionCreateTestSuite) TestTransactionFindByUserIDFailureWithNotFoundBranch() {
 	var (
 		payload = models.TransactionCreatePayload{
-			CompanyID: suite.data.CompanyID,
-			BranchID:  "5f58f899b3d106cbfcecd444",
-			UserID:    suite.data.UserID,
-			Amount:    suite.data.Amount,
+			Company: suite.data.Company,
+			Branch:  "5f58f899b3d106cbfcecd444",
+			User:    suite.data.User,
+			Amount:  suite.data.Amount,
 		}
-		response util.Response
+		response utils.Response
 	)
 
 	// Setup request
-	req, _ := http.NewRequest(http.MethodPost, "/transactions", util.HelperToIOReader(payload))
+	req, _ := http.NewRequest(http.MethodPost, "/transactions", utils.HelperToIOReader(payload))
 	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 	rec := httptest.NewRecorder()
 
@@ -223,16 +223,16 @@ func (suite *TransactionCreateTestSuite) TestTransactionFindByUserIDFailureWithN
 func (suite *TransactionCreateTestSuite) TestTransactionFindByUserIDFailureWithNotFoundUser() {
 	var (
 		payload = models.TransactionCreatePayload{
-			CompanyID: suite.data.CompanyID,
-			BranchID:  suite.data.BranchID,
-			UserID:    "5f58f899b3d106cbfcecd555",
-			Amount:    suite.data.Amount,
+			Company: suite.data.Company,
+			Branch:  suite.data.Branch,
+			User:    "5f58f899b3d106cbfcecd555",
+			Amount:  suite.data.Amount,
 		}
-		response util.Response
+		response utils.Response
 	)
 
 	// Setup request
-	req, _ := http.NewRequest(http.MethodPost, "/transactions", util.HelperToIOReader(payload))
+	req, _ := http.NewRequest(http.MethodPost, "/transactions", utils.HelperToIOReader(payload))
 	req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 	rec := httptest.NewRecorder()
 
@@ -253,10 +253,10 @@ func TestTransactionTestSuite(t *testing.T) {
 
 func setupDataTransaction() models.TransactionCreatePayload {
 	payload := models.TransactionCreatePayload{
-		CompanyID: "5f58f899b3d106cbfcecd111",
-		BranchID:  "5f58f899b3d106cbfcecd112",
-		UserID:    "5f58f899b3d106cbfcecd113",
-		Amount:    50000,
+		Company: "5f58f899b3d106cbfcecd111",
+		Branch:  "5f58f899b3d106cbfcecd112",
+		User:    "5f58f899b3d106cbfcecd113",
+		Amount:  50000,
 	}
 	return payload
 }
